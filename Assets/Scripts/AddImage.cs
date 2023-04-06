@@ -223,7 +223,7 @@ public class AddImage : MonoBehaviour
             //img.texture = www.texture;
             SpriteRenderer sprite = go.AddComponent<SpriteRenderer>();
             sprite.sprite = createdSprite;
-            sprite.transform.localScale = new(0.2f, 0.2f, 0.2f);
+            sprite.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             sprite.transform.localPosition = IntersectionPoint(listOfSelectedObjects[0].GetComponent<LineRenderer>());
             imageObjects.Add(go);
         }

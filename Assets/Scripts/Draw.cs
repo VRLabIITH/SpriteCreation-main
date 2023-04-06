@@ -5,7 +5,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Multiplayer.Samples;
 using UnityEngine.EventSystems;
 public class Draw : NetworkBehaviour
 {
