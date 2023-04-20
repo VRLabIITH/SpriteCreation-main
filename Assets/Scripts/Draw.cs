@@ -5,12 +5,12 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Multiplayer.Samples;
 using UnityEngine.EventSystems;
 public class Draw : NetworkBehaviour
 {
     public GameObject LinePrefab;
     public GameObject LineObject;
+    public GameObject LineParent;
     public GameObject ground;
     public LineRenderer Line;
     public float lineWidth = 1f;
@@ -52,7 +52,10 @@ public class Draw : NetworkBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             LineObject = Instantiate(LinePrefab);                         //creates a game object for every line object
+            LineObject.transform.parent = LineParent.transform;
             Line = LineObject.GetComponent<LineRenderer>();         //LineRenderer component is added to LineObject
             //LineObject.AddComponent<NetworkObject>();
             //LineObject.AddComponent<PlayerNetwork>();
@@ -67,6 +70,7 @@ public class Draw : NetworkBehaviour
             //edgeCollider = LineObject.AddComponent<EdgeCollider2D>();
             points = new List<Vector2>();
             listOfLinesStack.Push(LineObject);
+            Debug.Log("Stack of lines: " + listOfLinesStack.Count);
             linesCount++;
             DrawLink();
             
@@ -166,9 +170,17 @@ public class Draw : NetworkBehaviour
         {
             if (lineRenderer.startColor == Color.black)
             {
-                Color color = Random.ColorHSV();
-                lineRenderer.startColor = color;
-                lineRenderer.endColor = color;
+                if(lineRenderer.gameObject.transform.parent == LineParent.transform)
+                {
+                    Color color = Random.ColorHSV();
+                    lineRenderer.startColor = color;
+                    lineRenderer.endColor = color;
+                }
+                else
+                {
+                    lineRenderer.startColor = lineRenderer.gameObject.transform.parent.GetComponent<LineRenderer>().startColor;
+                    lineRenderer.endColor = lineRenderer.gameObject.transform.parent.GetComponent<LineRenderer>().endColor;
+                }
             }
         }
     }
@@ -196,7 +208,11 @@ public class Draw : NetworkBehaviour
     {
         if (listOfLines != null)
         {
+            Debug.Log("Started Undo");
             GameObject go = listOfLinesStack.Pop();
+            if (go != null){
+                Debug.Log("Object there");
+            }
             undoLinesStack.Push(go);
             go.SetActive(false);
             linesCount--;

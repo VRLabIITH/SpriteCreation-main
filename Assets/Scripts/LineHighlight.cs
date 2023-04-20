@@ -50,7 +50,7 @@ public class LineHighlight : MonoBehaviour
             {
                 minimumDistance = dist;
             }
-            Debug.Log("Dist " + dist);
+            //Debug.Log("Dist " + dist);
             if (minimumDistance < 1.3f)
             {
                 //Debug.Log("close Enough");
