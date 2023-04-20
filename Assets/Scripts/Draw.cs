@@ -52,6 +52,8 @@ public class Draw : NetworkBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             LineObject = Instantiate(LinePrefab);                         //creates a game object for every line object
             Line = LineObject.GetComponent<LineRenderer>();         //LineRenderer component is added to LineObject
             //LineObject.AddComponent<NetworkObject>();

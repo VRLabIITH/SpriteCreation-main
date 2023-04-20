@@ -205,6 +205,13 @@ public class JointCreation : MonoBehaviour
             go.tag = "Indicator";
             jointList.Add(go);  
         }
+        for (int j = 0; j < sliderJointManager.GetComponent<SliderJoint>().pointsOfSliderJoints.Count; j++)
+        {
+            GameObject go = Instantiate(sliderJointIndicator, sliderJointManager.GetComponent<SliderJoint>().pointsOfSliderJoints[j], Quaternion.identity);
+            go.tag = "Indicator";
+            jointList.Add(go);
+
+        }
         Debug.Log("Joint List" + jointList.Count);
 
         endMotorButton.SetActive(true);
